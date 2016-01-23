@@ -7,6 +7,7 @@
 //
 
 #import "customeCollectionViewlayout.h"
+#define SCR
 
 @implementation customeCollectionViewlayout
 
