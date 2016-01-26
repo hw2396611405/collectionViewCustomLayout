@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
-        <!--瀑布流-->
+        <!--Title-->
         <scene sceneID="1ro-0V-WGH">
             <objects>
                 <collectionViewController id="fIR-Vc-sLE" customClass="MyCollectionViewController" sceneMemberID="viewController">
@@ -47,7 +47,13 @@
                             <outlet property="delegate" destination="fIR-Vc-sLE" id="Za2-o3-UKa"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="瀑布流" id="bsM-es-Upa"/>
+                    <navigationItem key="navigationItem" title="Title" id="iLc-8j-3jW">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="995-3C-h6n">
+                            <connections>
+                                <action selector="tapSettingButton:" destination="fIR-Vc-sLE" id="MMO-Nk-28N"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KB0-MX-jcI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

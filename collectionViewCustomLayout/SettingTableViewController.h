@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void  (^DoneBlock)(NSInteger cellColumn, CGFloat cellMargin, CGFloat cellMinHeight, CGFloat cellMaxHeight);
+
 @interface SettingTableViewController : UITableViewController
 
 @end

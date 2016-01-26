@@ -7,9 +7,24 @@
 //
 
 #import "MyCollectionViewController.h"
+#import "ImageCollectionViewCell.h"
+#import "customeCollectionViewlayout.h"
+#import "SettingTableViewController.h"
 
-@interface MyCollectionViewController ()
+#define CELL_COLUMN 3
+#define CELL_MARGIN 2
+#define CELL_MIN_HEIGHT 50
+#define CELL_MAX_HEIGHT 200
+#define SECTIONS_COUNT 1
+#define CELL_COUNT 1000
+#define SCROLL_OFFSET_Y 300
 
+@interface MyCollectionViewController ()<CustomecollectionViewLayoutDelegate>
+@property (strong,nonatomic)customeCollectionViewlayout *customeLayout;
+@property (nonatomic)NSInteger cellColumn;
+@property (nonatomic)CGFloat cellMargin;
+@property (nonatomic)CGFloat cellMinHeght;
+@property (nonatomic)CGFloat  cellMaxHeight;
 @end
 
 @implementation MyCollectionViewController
@@ -18,14 +33,33 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _customeLayout  = (customeCollectionViewlayout *)self.collectionViewLayout;
+    _customeLayout.layoutDelegate = self;
+    [self initData];
     
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Register cell classes
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+//    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
     // Do any additional setup after loading the view.
+}
+
+#pragma mark --自定义方法
+- (void)initData {
+    _cellColumn = CELL_COLUMN;
+    _cellMargin = CELL_MARGIN;
+    _cellMinHeght = CELL_MIN_HEIGHT;
+    _cellMaxHeight = CELL_MAX_HEIGHT;
+}
+
+#pragma mark  --- 控件事件处理----
+- (IBAction)tapSettingButton:(id)sender {
+    SettingTableViewController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]]instantiateViewControllerWithIdentifier:@"SettingTableViewController"];
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
