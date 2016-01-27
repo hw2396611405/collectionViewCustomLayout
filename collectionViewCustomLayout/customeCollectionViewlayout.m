@@ -51,7 +51,7 @@
 
 }
 //为每个cell绑定一个Layout属性  返回数组中所有视图布局属性实例给定的矩形
--(NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect {
+-(NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
    [self initCellYArray];
     NSMutableArray *array = [NSMutableArray array];
     //添加cell
@@ -70,7 +70,7 @@
     CGFloat cellHeight  = [_cellHeightArray[indexPath.row] floatValue];
     NSInteger minYIndex = [self minCellYArrayWithArray:_cellYArray];
     CGFloat tempX= [_cellXArray[minYIndex] floatValue];
-    CGFloat tempY = [_cellXArray[minYIndex] floatValue];
+    CGFloat tempY = [_cellYArray[minYIndex] floatValue];
     frame = CGRectMake(tempX, tempY, _cellWidth, cellHeight);
     //更新相应的Y坐标
     _cellYArray[minYIndex] = @(tempY + cellHeight +_margin);
@@ -88,6 +88,7 @@
     _numberOfCellsInSections = [self.collectionView numberOfItemsInSection:0];
     //通过回调获取列数
     _columnCount = [_layoutDelegate numberOfColumnWithCollectionView:self.collectionView collectionViewLayout:self];
+    NSLog(@"%ld",(long)_columnCount);
     _margin = [_layoutDelegate marginOfCellWithCollectionView:self.collectionView collectionViewLayout:self];
     _cellMinHeight = [_layoutDelegate minHeightOfCellWithCollectionView:self.collectionView collectionViewLayout:self];
     _cellMaxheight = [_layoutDelegate maxHeightOfCellWithCollectionView:self.collectionView collectionViewLayout:self];
@@ -102,6 +103,7 @@
     _cellXArray = [[NSMutableArray alloc]initWithCapacity:_columnCount];
     for (int i = 0; i < _columnCount; i ++) {
         CGFloat tempX = i *(_cellWidth +_margin);
+        NSLog(@"-----%f",tempX);
         [_cellXArray addObject:@(tempX)];
     }
 
@@ -142,7 +144,7 @@
     }
 
 }
-
+//获取cellY数组中的最小值得索引
 - (CGFloat)minCellYArrayWithArray:(NSMutableArray *) array  {
     if (array.count == 0) {
         return 0.0f;
@@ -154,9 +156,10 @@
         if (min > temp) {
             min = temp;
             minIndex = i;
+        
         }
     }
-    return min;
+    return minIndex;
 
 }
 

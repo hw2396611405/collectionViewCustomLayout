@@ -57,8 +57,20 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark  --- 控件事件处理----
 - (IBAction)tapSettingButton:(id)sender {
     SettingTableViewController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]]instantiateViewControllerWithIdentifier:@"SettingTableViewController"];
+    vc.cellColumn = _cellColumn;
+    vc.cellMargin = _cellMargin;
+    vc.cellMinHeight = _cellMinHeght;
+    vc.cellMaxHeight = _cellMaxHeight;
     
-    
+    [vc setDoneBlock:^(NSInteger cellColumn, CGFloat cellMargin, CGFloat cellMinHeight, CGFloat cellMaxHeight) {
+        _cellColumn = cellColumn;
+        _cellMargin = cellMargin;
+        _cellMaxHeight = cellMaxHeight;
+        _cellMinHeght = cellMinHeight;
+        [self.collectionView reloadData];
+        
+    }];
+    [self.navigationController showViewController:vc sender:nil];
     
 }
 
@@ -80,25 +92,62 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+
+    return SECTIONS_COUNT;
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of items
-    return 0;
+
+    return CELL_COUNT;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell
+    ImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    NSInteger imageIndex = arc4random() %10;
+    NSString *imageName = [NSString stringWithFormat:@"00%ld.jpg",imageIndex];
+    [cell.imageView  setImage:[UIImage imageNamed:imageName]];
+
     
     return cell;
 }
 
 #pragma mark <UICollectionViewDelegate>
+
+- (NSInteger) numberOfColumnWithCollectionView:(UICollectionView *)collectionView
+                          collectionViewLayout:( customeCollectionViewlayout *)collectionViewLayout{
+    return _cellColumn;
+}
+
+- (CGFloat)marginOfCellWithCollectionView:(UICollectionView *)collectionView
+                     collectionViewLayout:(customeCollectionViewlayout *)collectionViewLayout{
+    return _cellMargin;
+}
+
+- (CGFloat)minHeightOfCellWithCollectionView:(UICollectionView *)collectionView
+                        collectionViewLayout:(customeCollectionViewlayout *)collectionViewLayout{
+    return _cellMinHeght;
+}
+
+- (CGFloat)maxHeightOfCellWithCollectionView:(UICollectionView *)collectionView
+                        collectionViewLayout:(customeCollectionViewlayout *)collectionViewLayout{
+    return _cellMaxHeight;
+}
+
+#pragma mark - <UIScrollViewDelegate>
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    CGFloat offsetY = scrollView.contentOffset.y;
+    
+    if (offsetY < 0) {
+        offsetY = 0;
+    }
+    
+    self.navigationController.navigationBar.alpha = (SCROLL_OFFSET_Y - offsetY) / SCROLL_OFFSET_Y;
+}
+
+
+
 
 /*
 // Uncomment this method to specify if the specified item should be highlighted during tracking
